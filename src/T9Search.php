@@ -2,32 +2,26 @@
 
 namespace Ashique\T9Search;
 
-$t9 = array(
-    2 => array('a', 'b', 'c'),
-    3 => array('d', 'e', 'f'),
-    4 => array('g', 'h', 'i'),
-    5 => array('j', 'k', 'l'),
-    6 => array('m', 'n', 'o'),
-    7 => array('p', 'q', 'r', 's'),
-    8 => array('t', 'u', 'v'),
-    9 => array('w', 'x', 'y', 'z')
-);
+
 
 class T9Search
 {
     public function Search($number, $names)
     {
         $strings = $this->cari_kombinasi($number);
-
         $ret = [];
+
+        // dd($strings);
+
         foreach($strings as $str)
         {   
             foreach($names as $name)
             {
                 $rawName = str_replace(' ', '', $name);
-                if(strpos($rawName, $str))
+                
+                if(strpos($rawName, $str) !== false)
                 {
-                  array_push($ret, $name);  
+                    array_push($ret, $name); 
                 }
             }
         }
@@ -37,7 +31,18 @@ class T9Search
 
     public function cari_kombinasi($angka)
     {
-        global $t9;
+        $t9 = array(
+            2 => array('a', 'b', 'c'),
+            3 => array('d', 'e', 'f'),
+            4 => array('g', 'h', 'i'),
+            5 => array('j', 'k', 'l'),
+            6 => array('m', 'n', 'o'),
+            7 => array('p', 'q', 'r', 's'),
+            8 => array('t', 'u', 'v'),
+            9 => array('w', 'x', 'y', 'z')
+        );
+        
+        
         if (!is_numeric($angka))
             return false;
         $arr = str_split($angka);
@@ -46,6 +51,9 @@ class T9Search
             $total *= count($t9[$arr[$a]]);
             $t[$a] = $total;
         }
+
+        $ret = array_fill(0, $total, "");
+
         sort($t);
         for ($b = 0; $b < count($arr); $b++) {
             $k = $l = 0;
